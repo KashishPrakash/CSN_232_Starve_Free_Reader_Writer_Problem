@@ -17,7 +17,8 @@ class PCB{
 }
 ```
 The process_state variable represents whether the process is blocked or active. If it is true then process is active and if it is false then it is in inactive state.
-
+The next_process variable stores the next process
+Other variables can also bhi defined but only necessary variables are mentioned
 
 
 ## Waiting Queue Implementation
@@ -26,7 +27,7 @@ class Waiting_Queue{
     public:
     int size = 0 ;
     PCB* front, back;
-    void Push(PCS &process){
+    void Push(PCB* process){
         process->process_state = false;
         if(size==0){
             front = process;
@@ -47,6 +48,8 @@ class Waiting_Queue{
     }
 }
 ```
+The size variable represents the size of the queue. front and back stores the first and last process of the queue.
+Whenever a process enters the queue, its process_state is turned false as it is in a blocked state.
 
 
 ## Semaphore Implementation
@@ -76,6 +79,7 @@ void signal(semaphore s){
     }
 }
 ```
+The semaphore class contains the waiting queue. The wait function decrements the value of the semaphore and put the process in the waiting queue if necessary. The signal function increments the semaphore value and wake up the process from the queue if necessary.
 
 ##  Global Variables
 ```cpp
@@ -84,6 +88,7 @@ semaphore* sem_reader = new semaphore(1);
 semaphore* sem_enter = new semaphore(1);
 int reader_count = 0;
 ```
+The semaphores are initialised with value 1 because only one writer process can be in the critical section at a time.
 
 ## Reader Code Immplementation
 ```cpp
@@ -105,6 +110,7 @@ while(true){
     signal(sem_reader);
 }
 ``` 
+
 
 ## Writer Code Implementation
 ```cpp
